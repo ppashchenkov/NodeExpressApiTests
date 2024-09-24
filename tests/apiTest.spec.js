@@ -2,20 +2,17 @@ import {test, request, expect} from '@playwright/test'
 
 const BASE_URL = 'http://localhost:5000'
 
-let user = {
+const userFirst = {
     "firstName": "Joe",
     "lastName": "Buffalo",
     "age": 43,
 }
-let userId = '5f7abd01-4047-4b0a-8b79-d82037dd02c9'
-
-// test('Delete users', async() => {
-//     const apiRequest = await request.newContext()
-//
-//     const response = await apiRequest.delete(`${BASE_URL}/users/${userId}`)
-//
-//     await expect(response.status()).toBe(200)
-// })
+const userSecond = {
+    "firstName": "Sergey",
+    "lastName": "Ivanov",
+    "age": 25,
+}
+let userId = ''
 
 test('GET /', async() => {
     const apiRequest = await request.newContext()
@@ -54,7 +51,7 @@ test('Create users', async () => {
     const apiRequest = await request.newContext()
 
     const response = await apiRequest.post(`${BASE_URL}/users`,{
-        data: user
+        data: userFirst
     })
 
     await expect(response.status()).toBe(200)
@@ -66,17 +63,51 @@ test('Get users id', async() => {
 
     const response = await apiRequest.get(`${BASE_URL}/users`)
 
-    // console.log("userId = " + response.json().id)
+    const responseJson = await response.json()
+    // const currentFirstName = responseJson[0].firstName
+    userId = responseJson[0].id
 
-    const headersArray = response.headersArray()
-    const contentType = headersArray
-        .find((header) => header.name === 'Content-Type')
-        .value
+    console.log("id = " + userId)
 
-    console.log("contentType = " + contentType)
+    await expect(response.status()).toBe(200)
+    // await expect(currentFirstName).toEqual(userFirst.firstName)
+})
 
-    // const createdUser = await response.body()
-    userId = await response.body()
-    console.log("id = " + userId[0])
+// test('PATCH user', async()  => {
+//     const apiRequest = await request.newContext()
+//
+//     const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
+//         data: userSecond
+//     })
+//
+//     const receivedText = await response.text()
+//     console.log(receivedText)
+//
+//     await expect(response.status()).toBe(200)
+//     await expect(await response.text()).toEqual("User was updated successfully.")
+// })
 
+test('GET user by id', async() => {
+    const apiRequest = await request.newContext()
+
+    const response = await apiRequest.get(`${BASE_URL}/users/${userId}`)
+
+    const responseJson = await response.json()
+    const currentFirstName = responseJson[0].firstName
+    const currentUserId = responseJson[0].id
+
+    console.log("firstName = " + currentFirstName)
+    console.log("id = " + currentUserId)
+
+    await expect(response.status()).toBe(200)
+    await expect(currentFirstName).toEqual(userFirst.firstName)
+})
+
+test('Delete users', async() => {
+    const apiRequest = await request.newContext()
+
+    const response = await apiRequest.delete(`${BASE_URL}/users/${userId}`)
+
+    await expect(response.status()).toBe(200)
+    await expect(await response.text()).toEqual("User was deleted successfully.")
 })
