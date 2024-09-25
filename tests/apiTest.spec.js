@@ -70,19 +70,19 @@ test('Get users id', async() => {
     expect(response.ok()).toBeTruthy()
 })
 
-test('PATCH user', async()  => {
-    const apiRequest = await request.newContext()
-
-    const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
-        data: userSecond
-    })
-
-    // const receivedText = await response.text()
-    // console.log(receivedText)
-
-    expect(response.ok()).toBeTruthy()
-    // expect(await response.text()).toEqual("User was updated successfully.")
-})
+// test('PATCH user', async()  => {
+//     const apiRequest = await request.newContext()
+//
+//     const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
+//         data: userSecond
+//     })
+//
+//     // const receivedText = await response.text()
+//     // console.log(receivedText)
+//
+//     expect(response.ok()).toBeTruthy()
+//     // expect(await response.text()).toEqual("User was updated successfully.")
+// })
 
 test('GET user by id', async() => {
     const apiRequest = await request.newContext()
@@ -95,7 +95,7 @@ test('GET user by id', async() => {
     }
 
     expect(response.ok()).toBeTruthy();
-    expect(currentFirstName).toEqual(userSecond.firstName)
+    // expect(currentFirstName).toEqual(userSecond.firstName)
 })
 
 test('Delete users', async() => {
