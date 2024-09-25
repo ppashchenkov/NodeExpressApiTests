@@ -10,7 +10,7 @@ const userFirst = {
 const userSecond = {
     "firstName": "Sergey",
     "lastName": "Ivanov",
-    "age": 25,
+    "age": 25
 }
 let userId = ''
 
@@ -64,13 +64,12 @@ test('Get users id', async() => {
     const response = await apiRequest.get(`${BASE_URL}/users`)
 
     const responseJson = await response.json()
-    // const currentFirstName = responseJson[0].firstName
-    userId = responseJson[0].id
-
-    console.log("id = " + userId)
+    const currentFirstName = await responseJson[0].firstName
+    userId = await responseJson[0].id
+    // console.log("id = " + userId)
 
     await expect(response.status()).toBe(200)
-    // await expect(currentFirstName).toEqual(userFirst.firstName)
+    await expect(currentFirstName).toEqual(userFirst.firstName)
 })
 
 // test('PATCH user', async()  => {
@@ -93,14 +92,14 @@ test('GET user by id', async() => {
     const response = await apiRequest.get(`${BASE_URL}/users/${userId}`)
 
     const responseJson = await response.json()
-    const currentFirstName = responseJson[0].firstName
-    const currentUserId = responseJson[0].id
-
-    console.log("firstName = " + currentFirstName)
-    console.log("id = " + currentUserId)
+    const currentFirstName = await responseJson[0].firstName
+    // const currentUserId = await responseJson[0].id
+    // console.log("firstName = " + currentFirstName)
+    // console.log("id = " + currentUserId)
 
     await expect(response.status()).toBe(200)
     await expect(currentFirstName).toEqual(userFirst.firstName)
+    // await expect(currentUserId).toEqual(userId)
 })
 
 test('Delete users', async() => {
