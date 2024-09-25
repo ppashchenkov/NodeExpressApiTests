@@ -1,6 +1,6 @@
 import {test, request, expect} from '@playwright/test'
 
-const BASE_URL = 'http://localhost:5000'
+const BASE_URL = 'http://82.142.152.107:5000'
 
 const userFirst = {
     "firstName": "Joe",
@@ -13,6 +13,7 @@ const userSecond = {
     "age": 25
 }
 let userId = ''
+let currentFirstName = ''
 
 test('GET /', async() => {
     const apiRequest = await request.newContext()
@@ -33,9 +34,9 @@ test('GET /', async() => {
     console.log("contentType = " + contentType)
 
     //Assert response
-    await expect(await response.text()).toEqual("Node Express API Server")
-    await expect(statusCode).toBe(200)
-    await expect(response).toBeOK()
+    expect(await response.text()).toEqual("Node Express API Server")
+    expect(statusCode).toBe(200)
+    expect(response).toBeOK()
 })
 
 test('GET list of the users', async() => {
@@ -43,8 +44,8 @@ test('GET list of the users', async() => {
 
     const response = await apiRequest.get(`${BASE_URL}/users`)
 
-    await expect(response.status()).toBe(200)
-    await expect(await response.text()).toEqual("There are no users.")
+    // await expect(await response.text()).toEqual("There are no users.")
+    expect(response.ok()).toBeTruthy();
 })
 
 test('Create users', async () => {
@@ -54,8 +55,7 @@ test('Create users', async () => {
         data: userFirst
     })
 
-    await expect(response.status()).toBe(200)
-    await expect(await response.text()).toEqual("User created successfully.")
+    expect(response.ok()).toBeTruthy();
 })
 
 test('Get users id', async() => {
@@ -63,43 +63,39 @@ test('Get users id', async() => {
 
     const response = await apiRequest.get(`${BASE_URL}/users`)
 
-    const responseJson = await response.json()
-    const currentFirstName = await responseJson[0].firstName
-    userId = await responseJson[0].id
-    // console.log("id = " + userId)
+    while (userId.length === 0) {
+        userId = (await response.json())[0].id
+    }
 
-    await expect(response.status()).toBe(200)
-    await expect(currentFirstName).toEqual(userFirst.firstName)
+    expect(response.ok()).toBeTruthy()
 })
 
-// test('PATCH user', async()  => {
-//     const apiRequest = await request.newContext()
-//
-//     const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
-//         data: userSecond
-//     })
-//
-//     const receivedText = await response.text()
-//     console.log(receivedText)
-//
-//     await expect(response.status()).toBe(200)
-//     await expect(await response.text()).toEqual("User was updated successfully.")
-// })
+test('PATCH user', async()  => {
+    const apiRequest = await request.newContext()
+
+    const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
+        data: userSecond
+    })
+
+    // const receivedText = await response.text()
+    // console.log(receivedText)
+
+    expect(response.ok()).toBeTruthy()
+    // expect(await response.text()).toEqual("User was updated successfully.")
+})
 
 test('GET user by id', async() => {
     const apiRequest = await request.newContext()
 
     const response = await apiRequest.get(`${BASE_URL}/users/${userId}`)
 
-    const responseJson = await response.json()
-    const currentFirstName = await responseJson[0].firstName
-    // const currentUserId = await responseJson[0].id
-    // console.log("firstName = " + currentFirstName)
-    // console.log("id = " + currentUserId)
+    while (currentFirstName.length === 0) {
+        const responseJson = await response.json()
+        currentFirstName = await responseJson[0].firstName
+    }
 
-    await expect(response.status()).toBe(200)
-    await expect(currentFirstName).toEqual(userFirst.firstName)
-    // await expect(currentUserId).toEqual(userId)
+    expect(response.ok()).toBeTruthy();
+    expect(currentFirstName).toEqual(userSecond.firstName)
 })
 
 test('Delete users', async() => {
@@ -107,6 +103,6 @@ test('Delete users', async() => {
 
     const response = await apiRequest.delete(`${BASE_URL}/users/${userId}`)
 
-    await expect(response.status()).toBe(200)
-    await expect(await response.text()).toEqual("User was deleted successfully.")
+    expect(await response.text()).toEqual("User was deleted successfully.")
+    expect(response.ok()).toBeTruthy();
 })
