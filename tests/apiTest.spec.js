@@ -42,7 +42,6 @@ test('GET list of the users', async() => {
 
     const response = await apiRequest.get(`${BASE_URL}/users`)
 
-    // await expect(await response.text()).toEqual("There are no users.")
     expect(response.ok()).toBeTruthy();
 })
 
@@ -54,8 +53,7 @@ test('Create users', async () => {
         data: userFirst
     })
 
-    const responseJSON = await response.json()
-    userId = responseJSON[0].UserID
+    userId = await response.json().then((entries) => entries[0].UserID)
 
     expect(response.ok()).toBeTruthy();
 
@@ -72,8 +70,7 @@ test('GET user by id', async() => {
         data: userFirst
     })
 
-    const responseJSON = await created.json()
-    userId = responseJSON[0].UserID
+    userId = await created.json().then((entries) => entries[0].UserID)
 
     expect(userId.length > 0)
 
@@ -98,8 +95,7 @@ test('PATCH user', async()  => {
         data: userFirst
     })
 
-    const responseJSON = await created.json()
-    userId = responseJSON[0].UserID
+    userId = await created.json().then((entries) => entries[0].UserID)
 
     expect(userId.length > 0)
 
@@ -130,8 +126,7 @@ test('Delete users', async() => {
         data: userFirst
     })
 
-    const responseJSON = await created.json()
-    userId = responseJSON[0].UserID
+    userId = await created.json().then((entries) => entries[0].UserID)
 
     expect(userId.length > 0)
 
