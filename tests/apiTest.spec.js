@@ -1,6 +1,6 @@
 import {test, request, expect} from '@playwright/test'
 
-const BASE_URL = 'http://localhost:5000'
+const BASE_URL = 'http://localhost:5000/api'
 
 const userFirst = {
     "firstName": "Joe",
@@ -32,7 +32,7 @@ test('GET /', async() => {
     console.log("contentType = " + contentType)
 
     //Assert response
-    expect(await response.text()).toEqual("Node Express API Server")
+    expect(await response.text()).toEqual("Node Express API Server App")
     expect(statusCode).toBe(200)
     expect(response).toBeOK()
 })
