@@ -9,7 +9,7 @@ export async function createUser(request, user) {
     const created = await request.post(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT,{
         data: user
     })
-    return await created.json().then((entries) => entries[0].UserID)
+    return await created.json().then((entries) => entries[0].id)
 }
 
 export async function deleteUser(request, userId) {

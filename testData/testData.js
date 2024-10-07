@@ -9,19 +9,15 @@ export const userFirst = {
 export const userSecond = {
     "firstName": "Sergey",
     "lastName": "Ivanov",
-    "age": 25
+    "age": 25,
 }
 export const RESPONSE_API_SERVER = "Node Express API Server App"
 export const CONTENT_TYPE_TEXT = "text/html; charset=utf-8"
 export const CONTENT_TYPE_JSON = "application/json; charset=utf-8"
-export const expectedStatusCodes = {
+export const EXPECTED_STATUS_CODES = {
     _200: 200,
 }
 
-export const expectedResponseObjectsCount = {
-    _1: 1,
-}
-
-export const expected = {
+export const EXPECTED = {
     idLength: 36,
 }
