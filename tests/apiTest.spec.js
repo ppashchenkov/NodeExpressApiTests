@@ -20,7 +20,7 @@ test('GET /', async() => {
     const responseText = await API_UTILS.getResponseBodyText(response)
 
     //Assert response
-    expect(response).toBeOK()
+    await expect(response).toBeOK()
     expect(statusCode).toBe(200)
     expect(contentType).toEqual(TEST_DATA.CONTENT_TYPE_TEXT)
     expect(responseText).toEqual(TEST_DATA.RESPONSE_API_SERVER)
@@ -37,13 +37,12 @@ test('GET list of the users', async() => {
 
 test('Create users', async () => {
     // const apiRequest = await request.newContext()
-    let userId = ''
 
     const response = await apiRequest.post(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT,{
         data: TEST_DATA.userFirst
     })
 
-    userId = await response.json().then((entries) => entries[0].UserID)
+    const userId = await response.json().then((entries) => entries[0].UserID)
     const lengthUserId = API_UTILS.getLengthUserId(userId)
     const statusCode = API_UTILS.getResponseStatus(response)
     const contentType = API_UTILS.getContentTypeHeaderValue(response)
@@ -58,11 +57,8 @@ test('Create users', async () => {
 })
 
 test('GET user by id', async() => {
-    // const apiRequest = await request.newContext()
-    let userId = ''
-
     // Создаём нового пользователя:
-    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
+    const userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
     const lengthUserId = API_UTILS.getLengthUserId(userId)
 
@@ -71,7 +67,7 @@ test('GET user by id', async() => {
     // Делаем запрос пользователя по id:
     const response = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
-    const currentFirstName = await response.json().then((entrie) => entrie.firstName)
+    const currentFirstName = await response.json().then((entries) => entries.firstName)
 
     expect(response.ok()).toBeTruthy();
     expect(currentFirstName).toEqual(TEST_DATA.userFirst.firstName)
@@ -81,10 +77,8 @@ test('GET user by id', async() => {
 })
 
 test('PATCH user', async()  => {
-    // const apiRequest = await request.newContext()
-    let userId = ''
     // Создаём нового пользователя:
-    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
+    const userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
     const lengthUserId = API_UTILS.getLengthUserId(userId)
 
@@ -101,7 +95,7 @@ test('PATCH user', async()  => {
     // Запрос отредактированного пользователя:
     const edited = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
-    const currentFirstName = await edited.json().then((entrie) => entrie.firstName)
+    const currentFirstName = await edited.json().then((entries) => entries.firstName)
 
     expect(currentFirstName).toEqual(TEST_DATA.userSecond.firstName)
 
@@ -110,10 +104,8 @@ test('PATCH user', async()  => {
 })
 
 test('Delete users', async() => {
-    // const apiRequest = await request.newContext()
-    let userId = ''
     // Создаём нового пользователя:
-    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
+    const userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
     const lengthUserId = API_UTILS.getLengthUserId(userId)
 
