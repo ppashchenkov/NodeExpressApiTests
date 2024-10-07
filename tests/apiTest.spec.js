@@ -1,143 +1,132 @@
-import {test, request, expect} from '@playwright/test'
+import {test, expect} from '@playwright/test'
+import * as TEST_DATA from '../testData/testData.js'
+import * as API_UTILS from '../utils/apiUtils'
 
-const BASE_URL = 'http://localhost:5000/api'
+let apiRequest
 
-const userFirst = {
-    "firstName": "Joe",
-    "lastName": "Buffalo",
-    "age": 43,
-}
-const userSecond = {
-    "firstName": "Sergey",
-    "lastName": "Ivanov",
-    "age": 25
-}
+test.beforeEach(async() => {
+    apiRequest = await API_UTILS.createNewContext()
+})
+
+test.afterEach(async() => {
+    await apiRequest.dispose()
+})
 
 test('GET /', async() => {
-    const apiRequest = await request.newContext()
+    const response = await  apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.ROOT_END_POINT)
 
-    const response = await  apiRequest.get(`${BASE_URL}/`)
-
-    const statusCode = response.status()
-    const headersArray = response.headersArray()
-    const contentType = headersArray
-        .find((header) => header.name === 'Content-Type')
-        .value
-
-    console.log(response)
-    console.log("------------------------")
-    console.log(await response.text())
-    console.log(statusCode)
-    console.log(headersArray)
-    console.log("contentType = " + contentType)
+    const statusCode = API_UTILS.getResponseStatus(response)
+    const contentType = API_UTILS.getContentTypeHeaderValue(response)
+    const responseText = await API_UTILS.getResponseBodyText(response)
 
     //Assert response
-    expect(await response.text()).toEqual("Node Express API Server App")
-    expect(statusCode).toBe(200)
     expect(response).toBeOK()
+    expect(statusCode).toBe(200)
+    expect(contentType).toEqual(TEST_DATA.CONTENT_TYPE_TEXT)
+    expect(responseText).toEqual(TEST_DATA.RESPONSE_API_SERVER)
 })
 
 test('GET list of the users', async() => {
-    const apiRequest = await request.newContext()
+    const response = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT)
 
-    const response = await apiRequest.get(`${BASE_URL}/users`)
+    const statusCode = API_UTILS.getResponseStatus(response)
 
+    expect(statusCode).toBe(200)
     expect(response.ok()).toBeTruthy();
 })
 
 test('Create users', async () => {
-    const apiRequest = await request.newContext()
+    // const apiRequest = await request.newContext()
     let userId = ''
 
-    const response = await apiRequest.post(`${BASE_URL}/users`,{
-        data: userFirst
+    const response = await apiRequest.post(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT,{
+        data: TEST_DATA.userFirst
     })
 
     userId = await response.json().then((entries) => entries[0].UserID)
+    const lengthUserId = API_UTILS.getLengthUserId(userId)
+    const statusCode = API_UTILS.getResponseStatus(response)
+    const contentType = API_UTILS.getContentTypeHeaderValue(response)
 
     expect(response.ok()).toBeTruthy();
+    expect(statusCode).toBe(TEST_DATA.expectedStatusCodes._200)
+    expect(contentType).toEqual(TEST_DATA.CONTENT_TYPE_JSON)
+    expect(lengthUserId).toBe(TEST_DATA.expected.idLength)
 
     // Подчищаем за собой:
-    await apiRequest.delete(`${BASE_URL}/users/${userId}`)
+    await API_UTILS.deleteUser(apiRequest, userId)
 })
 
 test('GET user by id', async() => {
-    const apiRequest = await request.newContext()
+    // const apiRequest = await request.newContext()
     let userId = ''
-    let currentFirstName = ''
+
     // Создаём нового пользователя:
-    const created = await apiRequest.post(`${BASE_URL}/users`,{
-        data: userFirst
-    })
+    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
-    userId = await created.json().then((entries) => entries[0].UserID)
+    const lengthUserId = API_UTILS.getLengthUserId(userId)
 
-    expect(userId.length > 0)
+    expect(lengthUserId).toBe(TEST_DATA.expected.idLength)
 
     // Делаем запрос пользователя по id:
-    const response = await apiRequest.get(`${BASE_URL}/users/${userId}`)
+    const response = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
-    currentFirstName = await response.json().then((entrie) => entrie.firstName)
+    const currentFirstName = await response.json().then((entrie) => entrie.firstName)
 
     expect(response.ok()).toBeTruthy();
-    expect(currentFirstName).toEqual(userFirst.firstName)
+    expect(currentFirstName).toEqual(TEST_DATA.userFirst.firstName)
 
     // Подчищаем за собой:
-    await apiRequest.delete(`${BASE_URL}/users/${userId}`)
+    await API_UTILS.deleteUser(apiRequest, userId)
 })
 
 test('PATCH user', async()  => {
-    const apiRequest = await request.newContext()
+    // const apiRequest = await request.newContext()
     let userId = ''
-    let currentFirstName = ''
     // Создаём нового пользователя:
-    const created = await apiRequest.post(`${BASE_URL}/users`,{
-        data: userFirst
-    })
+    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
-    userId = await created.json().then((entries) => entries[0].UserID)
+    const lengthUserId = API_UTILS.getLengthUserId(userId)
 
-    expect(userId.length > 0)
+    expect(lengthUserId).toBe(TEST_DATA.expected.idLength)
 
     // Редактируем данные пользователя:
-    const response = await apiRequest.patch(`${BASE_URL}/users/${userId}`,{
-        data: userSecond
+    const response = await apiRequest.patch(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId,{
+        data: TEST_DATA.userSecond
     })
 
     expect(response.ok()).toBeTruthy();
     expect(await response.text()).toEqual("User was updated successfully.")
 
     // Запрос отредактированного пользователя:
-    const edited = await apiRequest.get(`${BASE_URL}/users/${userId}`)
+    const edited = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
-    currentFirstName = await edited.json().then((entrie) => entrie.firstName)
+    const currentFirstName = await edited.json().then((entrie) => entrie.firstName)
 
-    expect(currentFirstName).toEqual(userSecond.firstName)
+    expect(currentFirstName).toEqual(TEST_DATA.userSecond.firstName)
 
     // Подчищаем за собой:
-    await apiRequest.delete(`${BASE_URL}/users/${userId}`)
+    await API_UTILS.deleteUser(apiRequest, userId)
 })
 
 test('Delete users', async() => {
-    const apiRequest = await request.newContext()
+    // const apiRequest = await request.newContext()
     let userId = ''
     // Создаём нового пользователя:
-    const created = await apiRequest.post(`${BASE_URL}/users`,{
-        data: userFirst
-    })
+    userId = await API_UTILS.createUser(apiRequest, TEST_DATA.userFirst)
 
-    userId = await created.json().then((entries) => entries[0].UserID)
+    const lengthUserId = API_UTILS.getLengthUserId(userId)
 
-    expect(userId.length > 0)
+    expect(lengthUserId).toBe(TEST_DATA.expected.idLength)
 
     // Запрос на удаление созданного пользователя:
-    const response = await apiRequest.delete(`${BASE_URL}/users/${userId}`)
+    const response = await apiRequest.delete(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
     expect(await response.text()).toEqual("User was deleted successfully.")
     expect(response.ok()).toBeTruthy();
 
     // Проверяем что пользователь удален:
-    const isexist = await apiRequest.get(`${BASE_URL}/users/${userId}`)
+    const isExist = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 
-    expect(await isexist.text()).toEqual("User not found.")
+    expect(await isExist.text()).toEqual("User not found.")
 })
