@@ -19,7 +19,6 @@ test('GET /', async() => {
     const contentType = API_UTILS.getContentTypeHeaderValue(response)
     const responseText = await API_UTILS.getResponseBodyText(response)
 
-    //Assert response
     await expect(response).toBeOK()
     expect(statusCode).toBe(200)
     expect(contentType).toEqual(TEST_DATA.CONTENT_TYPE_TEXT)
@@ -35,8 +34,6 @@ test('GET list of the users', async() => {
 })
 
 test('Create users', async () => {
-    // const apiRequest = await request.newContext()
-
     const response = await apiRequest.post(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT,{
         data: TEST_DATA.userFirst
     })
@@ -49,7 +46,6 @@ test('Create users', async () => {
     expect(statusCode).toBe(TEST_DATA.EXPECTED_STATUS_CODES._200)
     expect(contentType).toEqual(TEST_DATA.CONTENT_TYPE_JSON)
     expect(lengthUserId).toBe(TEST_DATA.EXPECTED.idLength)
-
     // Подчищаем за собой:
     await API_UTILS.deleteUser(apiRequest, userId)
 })
