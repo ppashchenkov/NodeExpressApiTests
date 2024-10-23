@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test'
 
 test('Get Title', async ({page}) => {
-    const p = await page.goto('http://localhost:5000')
+    await page.goto('http://localhost:5000')
 
     const headerLocator = page.getByRole('heading', { name: 'Node Express API Server App' })
     const headerCssLocator = page.locator('#appName')
@@ -13,7 +13,7 @@ test('Get Title', async ({page}) => {
 })
 
 test('Get Title Promise.all', async ({page}) => {
-    const p = await page.goto('http://localhost:5000')
+    await page.goto('http://localhost:5000')
 
     const headerLocator = page.getByRole('heading', { name: 'Node Express API Server App' })
     const headerCssLocator = page.locator('#appName')
@@ -27,7 +27,7 @@ test('Get Title Promise.all', async ({page}) => {
 })
 
 test('Get Title Promise.allSettled', async ({page}) => {
-    const p = await page.goto('http://localhost:5000')
+    await page.goto('http://localhost:5000')
 
     const headerLocator = page.getByRole('heading', { name: 'Node Express API Server App' })
     const headerCssLocator = page.locator('#appName')
