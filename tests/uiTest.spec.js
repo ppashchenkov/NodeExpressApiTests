@@ -40,3 +40,13 @@ test('Get Title Promise.allSettled', async ({page}) => {
     ])
     expect(results.filter((result) => result.status === "rejected")).toHaveLength(0)
 })
+
+test('Add user form, UI test', async ({page}) => {
+    await page.goto('http://localhost:5000')
+
+    await page
+        .getByLabel('Last Name')
+        .fill("tttt")
+    // page.pause()
+    const age = await page.getByTestId('age')
+})
