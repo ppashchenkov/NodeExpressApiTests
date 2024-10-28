@@ -4,12 +4,12 @@ export const USERS_END_POINT = '/users/'
 export const userFirst = {
     "firstName": "Joe",
     "lastName": "Buffalo",
-    "age": 43,
+    "age": "43",
 }
 export const userSecond = {
     "firstName": "Sergey",
     "lastName": "Ivanov",
-    "age": 25,
+    "age": "25",
 }
 export const RESPONSE_API_SERVER = "Node Express API Server App"
 export const RESPONSE_API_SERVER_NO_USERS = "There are no users."
