@@ -1,6 +1,5 @@
 import {test, expect} from '@playwright/test'
 import * as TEST_DATA from '../testData/testData.js'
-import * as API_UTILS from '../utils/apiUtils'
 
 test('Get Title', async ({page}) => {
     await page.goto('http://localhost:5000')
@@ -108,7 +107,11 @@ test('Add user positive test', async ({page}) => {
     await expect(actualUserAge).toHaveText(TEST_DATA.userFirst.age)
 
     // Подчищаем за собой:
-    const apiRequest = await API_UTILS.createNewContext()
-    await API_UTILS.deleteUser(apiRequest, actualUserId)
-    await apiRequest.dispose()
+    const response = await fetch(
+        `http://localhost:5000/api/users/${actualUserId}`, {
+            method: 'DELETE',
+        })
+    const ActualDeleteStatus = response.status
+
+    await expect(ActualDeleteStatus).toBe(TEST_DATA.EXPECTED_STATUS_CODES._200)
 })
