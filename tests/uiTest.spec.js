@@ -111,7 +111,9 @@ test('Add user positive test', async ({page}) => {
         `http://localhost:5000/api/users/${actualUserId}`, {
             method: 'DELETE',
         })
-    const ActualDeleteStatus = response.status
+    const actualDeleteStatus = response.status
+    const actualResponseText = await response.text()
 
-    await expect(ActualDeleteStatus).toBe(TEST_DATA.EXPECTED_STATUS_CODES._200)
+    await expect(actualDeleteStatus).toBe(TEST_DATA.EXPECTED_STATUS_CODES._200)
+    await expect(actualResponseText).toEqual(TEST_DATA.RESPONSE_API_SERVER_DELETE)
 })
