@@ -14,7 +14,9 @@ const HOME_PAGE_URL = 'http://localhost:5000/';
             test.setTimeout(15000)
         })
 
-        test( `${tabName} tab functionality`, async ({ page}) => {
+        test( `Test Case 2: Verify ${tabName} tab functionality and Test Case 3: Verify Active Tab Highlight`
+            , async ({ page}) => {
+
             const tab = await page.getByRole('link',
                 {name: `${tabName}`, exact: true})
             await tab.click()
@@ -35,7 +37,7 @@ const HOME_PAGE_URL = 'http://localhost:5000/';
             await expect(tabClassAttribute).toStrictEqual(`${expectedClass}`)
         })
 
-        test(`Verify ${expectedURL} URL change to ${tabName}`, async ({ page}) => {
+        test(`Test Case 4: Verify ${expectedURL} URL change to ${tabName}`, async ({ page}) => {
             const tab = await page.getByRole('link',
                 {name: `${tabName}`, exact: true})
             await tab.click()
@@ -45,7 +47,15 @@ const HOME_PAGE_URL = 'http://localhost:5000/';
             await expect(actualUrl).toEqual(expectedURL)
             await expect(actualTitle).toEqual(expectedTitle)
         })
+
+        test(`Test Case 5: Verify ${tabName} Tab Persistence on Page Refresh`, async ({ page }) => {
+            const tab = await page.getByRole('link',
+                {name: `${tabName}`, exact: true})
+            await tab.click()
+            await page.reload({timeout: 500})
+            const tabClassAttribute = await tab.getAttribute('class')
+
+            await expect(tabClassAttribute).toStrictEqual(`${expectedClass}`)
+        })
     })
 })
-
-
