@@ -2,11 +2,11 @@ import {test, expect}  from "@playwright/test"
 
 const HOME_PAGE_URL = 'http://localhost:5000/';
 [
-    {tabName: 'Add', header: 'Add User', buttonName: 'Add', count: 3, expected: [ "First Name", "Last Name", "Age" ], expectedURL: HOME_PAGE_URL + ''},
-    {tabName: 'Search', header: 'Search user', buttonName: 'Search', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'search.html'},
-    {tabName: 'Edit', header: 'Edit user', buttonName: 'Edit', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'edit'},
-    {tabName: 'Delete', header: 'Delete user', buttonName: 'Delete', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'delete'},
-].forEach(({tabName, header, buttonName, count, expected, expectedURL}) => {
+    {tabName: 'Add', header: 'Add User', buttonName: 'Add', count: 3, expected: [ "First Name", "Last Name", "Age" ], expectedURL: HOME_PAGE_URL + 'add', expectedTitle: 'Users app'},
+    {tabName: 'Search', header: 'Search user', buttonName: 'Search', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'search', expectedTitle: 'Search user'},
+    {tabName: 'Edit', header: 'Edit user', buttonName: 'Edit', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'edit', expectedTitle: 'Edit user'},
+    {tabName: 'Delete', header: 'Delete user', buttonName: 'Delete', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedURL: HOME_PAGE_URL + 'delete', expectedTitle: 'Delete user'},
+].forEach(({tabName, header, buttonName, count, expected, expectedURL, expectedTitle}) => {
     test.describe('Navigation tabs functionality', async () => {
 
         test.beforeEach('navigate to home page', async({ page }) => {
@@ -38,9 +38,12 @@ const HOME_PAGE_URL = 'http://localhost:5000/';
                 {name: `${tabName}`, exact: true})
             await tab.click()
             const actualUrl = await page.url()
-            // const actualTitle = page.title()
+            const actualTitle = await page.title()
+
+            console.log("TITLE = ", actualTitle)
 
             await expect(actualUrl).toEqual(expectedURL)
+            await expect(actualTitle).toEqual(expectedTitle)
         })
     })
 })
