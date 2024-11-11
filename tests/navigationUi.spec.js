@@ -1,11 +1,11 @@
 import {test, expect}  from "@playwright/test"
 
 [
-    {tabName: 'Add', expected: 'nav-link active'},
-    {tabName: 'Search', expected: 'nav-link'},
-    {tabName: 'Edit', expected: 'nav-link'},
-    {tabName: 'Delete', expected: 'nav-link'},
-].forEach(({tabName, expected}) => {
+    {tabName: 'Add', expectedClass: 'nav-link active'},
+    {tabName: 'Search', expectedClass: 'nav-link'},
+    {tabName: 'Edit', expectedClass: 'nav-link'},
+    {tabName: 'Delete', expectedClass: 'nav-link'},
+].forEach(({tabName, expectedClass}) => {
     test.describe('Navigation tab are available', async () => {
 
         test.beforeEach('navigate to home page', async({ page }) => {
@@ -13,7 +13,7 @@ import {test, expect}  from "@playwright/test"
             test.setTimeout(5000)
         })
 
-        test( `${tabName} tab should be available`, async ({ page}) => {
+        test( `Test Case 1: Verify ${tabName} tab should be available`, async ({ page}) => {
             const tab = await page.getByRole('link',
                 {name: `${tabName}`, exact: true})
             const tabClassAttribute = await tab.getAttribute('class')
@@ -22,7 +22,7 @@ import {test, expect}  from "@playwright/test"
             await expect(tab).toHaveCount(1)
             await expect(tab).toBeVisible()
             await expect(tab).toBeEnabled()
-            await expect(tabClassAttribute).toStrictEqual(`${expected}`)
+            await expect(tabClassAttribute).toStrictEqual(`${expectedClass}`)
         })
     })
 })
