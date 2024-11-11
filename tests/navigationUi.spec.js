@@ -1,11 +1,11 @@
 import {test, expect}  from "@playwright/test"
 
 [
-    {tabName: 'Add', classAttributeName: 'nav-link active'},
-    {tabName: 'Search', classAttributeName: 'nav-link'},
-    {tabName: 'Edit', classAttributeName: 'nav-link'},
-    {tabName: 'Delete', classAttributeName: 'nav-link'},
-].forEach(({tabName, classAttributeName}) => {
+    {tabName: 'Add', expected: 'nav-link active'},
+    {tabName: 'Search', expected: 'nav-link'},
+    {tabName: 'Edit', expected: 'nav-link'},
+    {tabName: 'Delete', expected: 'nav-link'},
+].forEach(({tabName, expected}) => {
     test.describe('Navigation tab are available', async () => {
 
         test.beforeEach('navigate to home page', async({ page }) => {
@@ -22,7 +22,7 @@ import {test, expect}  from "@playwright/test"
             await expect(tab).toHaveCount(1)
             await expect(tab).toBeVisible()
             await expect(tab).toBeEnabled()
-            await expect(tabClassAttribute).toStrictEqual(`${classAttributeName}`)
+            await expect(tabClassAttribute).toStrictEqual(`${expected}`)
         })
     })
 })
