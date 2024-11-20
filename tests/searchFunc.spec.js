@@ -31,10 +31,7 @@ import * as TEST_DATA from "../testData/testData";
 
                 await addButton.click()
                 user.id = await page.locator('tbody>tr>td').last().innerText()
-                // console.log(user.id)
             }
-            // console.log(usersDB)
-
         })
 
         test(`TC-searchFun-1: ${tcName}`, async ({page, request}) => {
@@ -52,9 +49,6 @@ import * as TEST_DATA from "../testData/testData";
             const deleteButton = await page.getByRole('button', {name: 'Delete'})
 
             for (const user of usersDB) {
-                if (usersDB.length > 4) {
-                    console.log("EEEEEEEEEEERRRRRRRRRRRRRRRRRRROOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRR")
-                }
                 let status = true
                 let count = 1
                 while (status) {
