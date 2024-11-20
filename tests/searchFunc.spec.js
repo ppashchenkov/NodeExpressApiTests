@@ -1,7 +1,9 @@
 import {test, expect, request}  from "@playwright/test"
 import  { users } from "../testData/usersTestData"
 import { data } from "../testData/searchFuncTestData"
-import { HOME_PAGE_URL } from "../testData/baseTestData";
+import { HOME_PAGE_URL } from "../testData/baseTestData"
+import {sleep} from "../utils/uiUtils";
+import * as TEST_DATA from "../testData/testData";
 
 [
     {tcName: data._1.tcName, searchCriteria: data._1.searchCriteria, expectedCount: data._1.expectedCount, expectedUsers: data._1.expectedUsers},
@@ -31,19 +33,54 @@ import { HOME_PAGE_URL } from "../testData/baseTestData";
                 user.id = await page.locator('tbody>tr>td').last().innerText()
                 // console.log(user.id)
             }
-            console.log(usersDB)
+            // console.log(usersDB)
 
         })
 
         test(`TC-searchFun-1: ${tcName}`, async ({page, request}) => {
 
+            console.log("TESTING................")
+            sleep(1000)
 
             await expect(true).toBe(true)
         })
 
-        test.afterEach('Close API request context', async () => {
+        test.afterEach('Close API request context', async ({page}) => {
+            await page.goto(HOME_PAGE_URL)
+            await page.locator('[href*="/delete"]').click()
+            const userIdField = await page.getByPlaceholder('Enter user ID...')
+            const deleteButton = await page.getByRole('button', {name: 'Delete'})
+
+            for (const user of usersDB) {
+                if (usersDB.length > 4) {
+                    console.log("EEEEEEEEEEERRRRRRRRRRRRRRRRRRROOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRR")
+                }
+                let status = true
+                let count = 1
+                while (status) {
+                    await userIdField.fill(user.id)
+                    await deleteButton.click()
+                    const response = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + user.id)
+                    const headersArray = await response.headersArray();
+                    const contentTypeHeader = headersArray.find(
+                        (header) => header.name === 'Content-Type');
+                    const contentTypeHeaderValue = contentTypeHeader.value;
+                    console.log("TYPE = ", contentTypeHeaderValue)
+                    sleep(1000)
+                    if (contentTypeHeaderValue === 'text/html; charset=utf-8') {
+                        status = false
+                        user.id = ''
+                    } else {
+                        count++
+                    }
+                }
+                if (count > 1) {
+                    console.log("COUNT = ", count)
+                    console.log("USER.ID = ", user.id)
+                }
+            }
+            sleep(1000)
             await apiRequest.dispose()
-            // add cleaner users DB!!!
         })
     })
 })
