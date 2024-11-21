@@ -58,13 +58,17 @@ import {deleteAllUsers} from "../utils/apiUtils";
             for (let i = 0; i < actualCountSearchedUsers; i++) {
 
                 const actualUserId = await page.locator('tbody>tr')
-                    .nth(i).locator('td').last().innerText()
+                    .nth(i).locator('td')
+                    .last().innerText()
                 const actualFirstUserName = await page.locator('tbody>tr')
-                    .nth(i).locator('td').first().innerText()
+                    .nth(i).locator('td')
+                    .first().innerText()
                 const actualLastUserName = await page.locator('tbody>tr')
-                    .nth(i).locator('td').nth(1).innerText()
+                    .nth(i).locator('td')
+                    .nth(1).innerText()
                 const actualAge = await page.locator('tbody>tr')
-                    .nth(i).locator('td').nth(2).innerText()
+                    .nth(i).locator('td')
+                    .nth(2).innerText()
 
                 await expect(actualFirstUserName).toEqual(expectedUsers[i].firstName)
                 await expect(actualLastUserName).toEqual(expectedUsers[i].lastName)
