@@ -17,6 +17,10 @@ export async function deleteUser(request, userId) {
     await request.delete(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + userId)
 }
 
+export async function deleteAllUsers(request) {
+    await request.delete(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT)
+}
+
 export function getResponseStatus(response) {
     return response.status()
 }
