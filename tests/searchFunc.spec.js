@@ -50,7 +50,6 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const actualListSearchedUsers = await page.locator('tbody')
                 .locator('tr').all()
-            sleep(300)
             const actualCountSearchedUsers = actualListSearchedUsers.length
 
             await expect(actualCountSearchedUsers).toEqual(expectedCount)
