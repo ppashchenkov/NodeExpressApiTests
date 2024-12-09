@@ -30,7 +30,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
                 await ageField.fill(user.age)
 
                 await addButton.click()
-                user.id = await page.locator('tbody>tr>td').last().innerText()
+                user.id = await page.locator('tbody>tr').last().locator('td').nth(3).innerText()
             }
         })
 

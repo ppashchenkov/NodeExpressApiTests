@@ -1,8 +1,6 @@
 import {test, expect, request}  from "@playwright/test"
 import  { users } from "../testData/usersTestData"
-import { data } from "../testData/searchFuncTestData"
 import { HOME_PAGE_URL } from "../testData/baseTestData"
-import {sleep} from "../utils/uiUtils";
 import {deleteAllUsers} from "../utils/apiUtils";
 
 test.describe('Icons created when users created', async() => {
