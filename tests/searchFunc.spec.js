@@ -18,6 +18,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
         const usersDB = [users.user1, users.user2, users.user3, users.user4]
         test.beforeEach('Land on Home Page, Create tested users', async({page}) => {
             apiRequest = await request.newContext()
+            await deleteAllUsers(apiRequest)
             await page.goto(HOME_PAGE_URL)
             const firstNameField = await page.getByPlaceholder('Enter first name')
             const lastNameField = await page.getByPlaceholder('Enter last name')
@@ -30,7 +31,9 @@ import {deleteAllUsers} from "../utils/apiUtils";
                 await ageField.fill(user.age)
 
                 await addButton.click()
-                user.id = await page.locator('tbody>tr').last().locator('td').nth(3).innerText()
+                user.id = await page.locator('tbody>tr').last()
+                    .locator('td').nth(3)
+                    .innerText()
             }
         })
 
@@ -58,7 +61,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
                 const actualUserId = await page.locator('tbody>tr')
                     .nth(i).locator('td')
-                    .last().innerText()
+                    .nth(3).innerText()
                 const actualFirstUserName = await page.locator('tbody>tr')
                     .nth(i).locator('td')
                     .first().innerText()
@@ -109,8 +112,8 @@ import {deleteAllUsers} from "../utils/apiUtils";
             //     }
             // }
             // sleep(1000)
-            await deleteAllUsers(apiRequest)
-            sleep(500)
+            // await deleteAllUsers(apiRequest)
+            // sleep(500)
             await apiRequest.dispose()
         })
     })
