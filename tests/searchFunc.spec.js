@@ -51,8 +51,8 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await ageField.fill(searchCriteria[3])
             await searchButton.click()
 
-            const actualListSearchedUsers = await page.locator('tbody')
-                .locator('tr').all()
+            sleep(100)
+            const actualListSearchedUsers = await page.locator('tbody>tr').all()
             const actualCountSearchedUsers = actualListSearchedUsers.length
 
             await expect(actualCountSearchedUsers).toEqual(expectedCount)
