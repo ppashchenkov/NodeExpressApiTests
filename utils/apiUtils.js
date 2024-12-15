@@ -1,5 +1,7 @@
 import {request} from "@playwright/test";
 import * as TEST_DATA from "../testData/testData";
+import {users} from "../testData/apiTestData";
+import {BASE_URL, USERS_END_POINT} from "../testData/testData";
 
 export async function createNewContext() {
     return await request.newContext()
@@ -58,4 +60,13 @@ export async function getUserId(response, k) {
 
 export async function getJsonValueByKey(response, k) {
     return await response.json().then((entries) => entries[k])
+}
+
+export async function createUsers(request) {
+    for (let user of users) {
+        await request.post(
+            `${BASE_URL}${USERS_END_POINT}`,
+            {data: user,}
+        )
+    }
 }
