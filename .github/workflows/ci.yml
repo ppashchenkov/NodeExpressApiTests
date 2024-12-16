@@ -22,8 +22,8 @@ jobs:
    #   run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - run: tar -xjvf api_server.txz -C /
-    - run: cd /NodeExpressAPI
+    - run: tar -xjvf api_server.txz -C ~/
+    - run: cd ~/NodeExpressAPI
     - run: npm install
 #    - run: pwd
     - run: npm start &
