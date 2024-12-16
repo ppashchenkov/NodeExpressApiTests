@@ -1,6 +1,6 @@
 import {request} from "@playwright/test";
 import * as TEST_DATA from "../testData/testData";
-import {users} from "../testData/apiTestData";
+import {users} from "../testData/usersTestData";
 import {BASE_URL, USERS_END_POINT} from "../testData/testData";
 
 export async function createNewContext() {
@@ -63,10 +63,10 @@ export async function getJsonValueByKey(response, k) {
 }
 
 export async function createUsers(request) {
-    for (let user of users) {
+    for (const [key, value] of Object.entries(users)) {
         await request.post(
             `${BASE_URL}${USERS_END_POINT}`,
-            {data: user,}
+            {data: value}
         )
     }
 }
