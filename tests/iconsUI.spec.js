@@ -44,10 +44,10 @@ test.describe('Icons created when users created', async() => {
         await expect(editIconInUserRow).toHaveCSS("color", "rgb(0, 0, 0)")
         await expect(deleteIconInUserRow).toHaveCSS("color", "rgb(0, 0, 0)")
 
-        await editIconInUserRow.hover({force: true}).then(() => {
+        await editIconInUserRow.hover().then(() => {
             expect(editIconInUserRow).toHaveCSS("color", "rgb(0, 128, 0)")
         })
-        await deleteIconInUserRow.hover({force: true}).then(() => {
+        await deleteIconInUserRow.hover().then(() => {
             expect(deleteIconInUserRow).toHaveCSS("color", "rgb(255, 0, 0)")
         })
     })
