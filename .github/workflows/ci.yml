@@ -27,7 +27,7 @@ jobs:
     - run: ls -l
     - run: npm install
     - run: ls -l
-    - run: node server.js &
+    - run: npm start &
     - run: cd -      
     - name: Run Playwright tests
       run: npx playwright test
