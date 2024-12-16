@@ -24,7 +24,7 @@ jobs:
       run: npx playwright install --with-deps
     - run: tar -xjvf api_server.txz
     - run: cd NodeExpressAPI/
-    - run: npm install
+#    - run: npm install
     - run: pwd
     - run: npm start &
     - run: cd ../      
