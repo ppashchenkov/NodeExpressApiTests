@@ -25,7 +25,7 @@ jobs:
     - run: tar -xjvf api_server.txz
     - run: cd NodeExpressAPI/
 #    - run: npm install
-    - run: pwd
+#    - run: pwd
     - run: npm start &
     - run: cd ../      
     - name: Run Playwright tests
