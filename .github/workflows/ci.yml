@@ -30,6 +30,8 @@ jobs:
    # - run: npm ci
    # - run: npm run build --if-present
     - run: tar -xjvpf api_server.txz
-    - run: NodeExpressAPI/npm install
-    - run: NodeExpressAPI/npm start
+    - run: cd NodeExpressAPI
+    - run: npm install
+    - run: npm start
+    - run: cd ..
     - run: npm test
