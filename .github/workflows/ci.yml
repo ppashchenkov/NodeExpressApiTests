@@ -15,11 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Install docker
-      uses: papodaca/install-docker-action@main
     - uses: actions/setup-node@v4
       with:
         node-version: 20.17.0
+    - name: Check Docker Version
+      run: docker --version
+    - name: Install Latest Docker
+      run: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
+        sudo apt-get update
+        sudo apt-get install docker-ce
+    - name: Check Docker Version
+      run: docker --version
     - name: pull node-express-api docker image
       run: docker pull pp57/node-express-api
     - name: docker run pp57/node-express-api
