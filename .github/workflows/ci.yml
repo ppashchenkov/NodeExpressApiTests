@@ -1,0 +1,48 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.17.0
+    - name: Check Docker Version
+      run: docker --version
+  #  - name: Install Latest Docker
+  #    run: |
+  #      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  #      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
+  #      sudo apt-get update
+  #      sudo apt-get install docker-ce
+  #  - name: Check Docker Version
+  #    run: docker --version
+    - name: pull node-express-api docker image
+      run: docker pull pp57/node-express-api
+    - name: docker run pp57/node-express-api
+      run: docker run -d -p 5000:5000 pp57/node-express-api
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+  #    run: npx playwright test
+      run: npm test
+  #  - uses: actions/upload-artifact@v4
+  #    if: ${{ !cancelled() }}
+  #    with:
+  #      name: playwright-report
+  #      path: playwright-report/
+  #      retention-days: 30
+        
