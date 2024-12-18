@@ -35,9 +35,10 @@ import {deleteAllUsers} from "../utils/apiUtils";
                     .locator('td').nth(3)
                     .innerText()
             }
+            sleep(500)
         })
 
-        test(`TC-searchFun-1: ${tcName}`, async ({page, request}) => {
+        test(`TC-searchFun-1: ${tcName}`, async ({page}) => {
             await page.locator('[href*="/search"]').click()
             const firstNameField = await page.getByPlaceholder('Enter first name')
             const lastNameField = await page.getByPlaceholder('Enter last name')
@@ -80,40 +81,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
         })
 
         test.afterEach('Close API request context', async ({page}) => {
-            // await page.locator('[href*="/delete"]').click()
-            // const userIdField = await page.getByPlaceholder('Enter user ID...')
-            // const deleteButton = await page.getByRole('button', {name: 'Delete'})
-            //
-            // for (const user of usersDB) {
-            //     if (user.id.length > 1 ) {
-            //         let status = true
-            //         let count = 1
-            //         let contentTypeHeaderValue = ''
-            //         while (status) {
-            //             await userIdField.fill(user.id)
-            //             await deleteButton.click()
-            //             const response = await apiRequest.get(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT + user.id)
-            //             const headersArray = await response.headersArray();
-            //             const contentTypeHeader = headersArray.find(
-            //                 (header) => header.name === 'Content-Type');
-            //             contentTypeHeaderValue = contentTypeHeader.value;
-            //             console.log("TYPE = ", contentTypeHeaderValue)
-            //             sleep(1000)
-            //             if (contentTypeHeaderValue === 'text/html; charset=utf-8') {
-            //                 status = false
-            //                 user.id = ''
-            //             } else {
-            //                 count++
-            //             }
-            //         }
-            //         if (count > 1) {
-            //             console.log("COUNT = ", count)
-            //         }
-            //     }
-            // }
-            // sleep(1000)
-            // await deleteAllUsers(apiRequest)
-            // sleep(500)
+            await deleteAllUsers(apiRequest)
             await apiRequest.dispose()
         })
     })
