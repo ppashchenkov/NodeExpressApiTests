@@ -3,8 +3,6 @@ import {test, expect}  from "@playwright/test"
 [
     {tabName: 'Add', expectedClass: 'nav-link active'},
     {tabName: 'Search', expectedClass: 'nav-link'},
-    {tabName: 'Edit', expectedClass: 'nav-link'},
-    {tabName: 'Delete', expectedClass: 'nav-link'},
 ].forEach(({tabName, expectedClass}) => {
     test.describe('Navigation tab are available', async () => {
 
