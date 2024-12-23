@@ -19,4 +19,9 @@ export const users = {
         lastName: 'Unique',
         age: '46',
     },
+    user5: {
+        firstName: 'Nickolay',
+        lastName: 'Petrov',
+        age: '55',
+    },
 }

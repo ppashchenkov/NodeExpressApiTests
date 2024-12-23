@@ -2,7 +2,6 @@ import {test, expect, request}  from "@playwright/test"
 import  { users } from "../testData/usersTestData"
 import { data } from "../testData/searchFuncTestData"
 import { HOME_PAGE_URL } from "../testData/baseTestData"
-import {sleep} from "../utils/uiUtils";
 import {deleteAllUsers} from "../utils/apiUtils";
 
 [
@@ -35,7 +34,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
                     .locator('td').nth(3)
                     .innerText()
             }
-            sleep(500)
+            await page.waitForLoadState('networkidle')
         })
 
         test(`TC-searchFun-1: ${tcName}`, async ({page}) => {
@@ -51,8 +50,8 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await lastNameField.fill(searchCriteria[2])
             await ageField.fill(searchCriteria[3])
             await searchButton.click()
+            await page.waitForLoadState('networkidle')
 
-            sleep(100)
             const actualListSearchedUsers = await page.locator('tbody>tr').all()
             const actualCountSearchedUsers = actualListSearchedUsers.length
 
@@ -72,6 +71,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
                 const actualAge = await page.locator('tbody>tr')
                     .nth(i).locator('td')
                     .nth(2).innerText()
+                await page.waitForLoadState('networkidle')
 
                 await expect(actualFirstUserName).toEqual(expectedUsers[i].firstName)
                 await expect(actualLastUserName).toEqual(expectedUsers[i].lastName)
