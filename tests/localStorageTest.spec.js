@@ -42,7 +42,6 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         const lsAge = await page.evaluate(() =>
             localStorage.getItem('ageValue'))
 
-
         expect(lsId).toEqual(firstUserData[3])
         expect(lsFirstName).toEqual(firstUserData[0])
         expect(lsLastName).toEqual(firstUserData[1])
@@ -57,9 +56,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         await expect(usersAmount).toBeGreaterThanOrEqual(1);
 
         let randomUserIndex = Math.floor(Math.random() * usersAmount);
-
         const randomUser = await users.nth(randomUserIndex);
-
         const randomUserText = (await randomUser.allInnerTexts())[0].split('\t');
         let randomUserData = [];
 

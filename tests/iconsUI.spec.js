@@ -26,7 +26,6 @@ test.describe('Icons created when users created', async() => {
         await addButton.click()
 
         const userRow = await page.locator('table>tbody>tr')
-            // .getByRole('row')
         const userCells = await userRow.getByRole('cell')
         const editIconInUserRow = await userRow
             .getByRole('cell').nth(4)
