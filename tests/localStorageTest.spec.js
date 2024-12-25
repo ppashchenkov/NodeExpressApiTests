@@ -50,7 +50,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
     test(`TC-LocalStorageFun-2: Data from random user should be saved in local storage by clicking on Edit icon`,
         async ({page}) => {
 
-        const users = page.locator('tbody > tr');
+        const users = await page.locator('tbody > tr');
         const usersAmount = await users.count();
 
         await expect(usersAmount).toBeGreaterThanOrEqual(1);
