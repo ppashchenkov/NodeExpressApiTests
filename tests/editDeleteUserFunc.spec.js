@@ -4,13 +4,13 @@ import { HOME_PAGE_URL } from "../testData/baseTestData"
 import {deleteAllUsers} from "../utils/apiUtils";
 
 [
-    {tcName: 'edit-01', editCriteria: [users.user5.firstName, '', '']},
-    {tcName: 'edit-02', editCriteria: ['', users.user5.lastName, '']},
-    {tcName: 'edit-03', editCriteria: ['', '', users.user5.age]},
-    {tcName: 'edit-04', editCriteria: [users.user5.firstName, users.user5.lastName, '']},
-    {tcName: 'edit-05', editCriteria: [users.user5.firstName, '', users.user5.age]},
-    {tcName: 'edit-06', editCriteria: ['', users.user5.lastName, users.user5.age]},
-    {tcName: 'edit-07', editCriteria: [users.user5.firstName, users.user5.lastName, users.user5.age]}
+    {tcName: '01', editCriteria: [users.user5.firstName, '', '']},
+    {tcName: '02', editCriteria: ['', users.user5.lastName, '']},
+    {tcName: '03', editCriteria: ['', '', users.user5.age]},
+    {tcName: '04', editCriteria: [users.user5.firstName, users.user5.lastName, '']},
+    {tcName: '05', editCriteria: [users.user5.firstName, '', users.user5.age]},
+    {tcName: '06', editCriteria: ['', users.user5.lastName, users.user5.age]},
+    {tcName: '07', editCriteria: [users.user5.firstName, users.user5.lastName, users.user5.age]}
 ].forEach(({tcName, editCriteria}) => {
     test.describe('Edit and Delete users functionality', async () => {
         let apiRequest
