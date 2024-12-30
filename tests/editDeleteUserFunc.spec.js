@@ -51,12 +51,12 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await editIcon.click()
             await page.waitForLoadState('networkidle')
 
-            let choicedUser = []
+            let choicesUser = []
             let updatedUser = []
 
             const inputs = await page.locator('#form-edit input').all()
             for (const input of inputs) {
-                choicedUser.push(await input.getAttribute('placeholder'))
+                choicesUser.push(await input.getAttribute('placeholder'))
             }
 
             await expect(await inputs[0].isDisabled()).toBe(true)
@@ -75,7 +75,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             updatedUser.push(await randomUser.locator('td').nth(3).innerText())
 
-            await expect(updatedUser[0]).toEqual(choicedUser[0])
+            await expect(updatedUser[0]).toEqual(choicesUser[0])
 
             for(let i = 0; i <=2; i++) {
                 updatedUser.push(await randomUser.locator('td').nth(i).innerText())
@@ -84,7 +84,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
                     await expect(updatedUser[i + 1]).toEqual(editCriteria[i])
                 } else {
 
-                    await expect(updatedUser[i + 1]).toEqual(choicedUser[i + 1])
+                    await expect(updatedUser[i + 1]).toEqual(choicesUser[i + 1])
                 }
             }
         })
