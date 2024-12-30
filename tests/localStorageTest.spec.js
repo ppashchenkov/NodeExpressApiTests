@@ -13,7 +13,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
     })
 
     test(`TC-LocalStorageFun-1: Data from random user should be saved in local storage by clicking on Edit icon`,
-        async ({page, request}) => {
+        async ({page}) => {
 
         const users = await page.locator('tbody>tr')
 
@@ -80,7 +80,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         await expect(lsLastName).toEqual(randomUserData[1]);
         await expect(lsAge).toEqual(randomUserData[2]);
         });
-        test.afterEach('Close API request context', async ({page}) => {
+        test.afterEach('Close API request context', async () => {
 
         await apiRequest.dispose()
     })

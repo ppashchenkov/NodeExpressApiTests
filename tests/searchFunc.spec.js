@@ -80,7 +80,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
             }
         })
 
-        test.afterEach('Close API request context', async ({page}) => {
+        test.afterEach('Close API request context', async () => {
             await deleteAllUsers(apiRequest)
             await apiRequest.dispose()
         })
