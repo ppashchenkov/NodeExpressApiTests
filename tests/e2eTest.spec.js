@@ -41,7 +41,8 @@ test.describe('End to End Test', async () => {
         await expect(actualUserAge).toEqual(users.user1.age)
         await expect(actualUserId.length).toEqual(36)
 
-        const editIcon = await addedUserLocators[4]
+        const usersLocator = page.locator('tbody > tr')
+        const editIcon = await usersLocator.locator('td>i>a.bi-pen')
         await editIcon.click()
         await page.waitForLoadState('networkidle')
         let inputs = await page.locator('#form-edit input').all()
@@ -71,7 +72,7 @@ test.describe('End to End Test', async () => {
         await expect(actualEditedUserAge).toEqual(users.user2.age)
         await expect(actualEditedUserId.length).toEqual(actualUserId.length)
 
-        const deleteIcon = await editedUserLocators[5]
+        const deleteIcon = await usersLocator.locator('td>i>a.bi-trash')
         await deleteIcon.click()
         await page.waitForLoadState('networkidle')
         inputs = await page.locator('#form-delete input').all()
