@@ -47,6 +47,7 @@ test.describe('End to End Test', async () => {
         await page.waitForLoadState('networkidle')
         let inputs = await page.locator('#form-edit input').all()
 
+        await expect(h2Header.first()).toHaveText("Edit user")
         await expect(await inputs[0].isDisabled()).toBe(true)
         await expect(await inputs[0].isEditable()).toBe(false)
 
@@ -77,6 +78,7 @@ test.describe('End to End Test', async () => {
         await page.waitForLoadState('networkidle')
         inputs = await page.locator('#form-delete input').all()
 
+        await expect(h2Header.first()).toHaveText("Delete user")
         for(let i = 0; i < inputs.length; i++){
             await expect(await inputs[i].isDisabled()).toBe(true)
             await expect(await inputs[i].isEditable()).toBe(false)
