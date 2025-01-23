@@ -35,10 +35,10 @@ module.exports = defineConfig({
     ['html', { outputFolder: 'reports/html-report/', open: 'never' }],
     // ['junit', { outputFile: 'reports/junit-report/report.xml' }],
     ['@estruyf/github-actions-reporter'],
-    // ['monocart-reporter', {
-    //   name: "My Test Report",
-    //   outputFile: 'reports/monocart-report/index.html'
-    // }]
+    ['monocart-reporter', {
+      name: "My Test Report",
+      outputFile: 'reports/monocart-report/index.html'
+    }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

@@ -11,7 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.48.1",
-    "@types/node": "^22.5.5"
+    "@types/node": "^22.5.5",
+    "monocart-reporter": "^2.9.13"
   },
   "dependencies": {
     "@estruyf/github-actions-reporter": "^1.9.2",
