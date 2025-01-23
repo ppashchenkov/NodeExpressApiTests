@@ -12,6 +12,14 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 module.exports = defineConfig({
   testDir: './tests',
+  timeout: 60 * 1000,
+  expect: {
+    /**
+     * Maximum time expect() should wait for the condition to be met.
+     * For example in await expect(locator).toHaveText();
+     */
+    timeout: 5000
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -21,7 +29,17 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['list'],
+    // ['json', {  outputFile: 'reports/json-report/report.json' }],
+    ['html', { outputFolder: 'reports/html-report/', open: 'never' }],
+    // ['junit', { outputFile: 'reports/junit-report/report.xml' }],
+    ['@estruyf/github-actions-reporter'],
+    // ['monocart-reporter', {
+    //   name: "My Test Report",
+    //   outputFile: 'reports/monocart-report/index.html'
+    // }]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
