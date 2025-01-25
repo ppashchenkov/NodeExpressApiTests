@@ -22,11 +22,11 @@ test.describe('End to End Test', async () => {
         let firstNameField = await page.getByPlaceholder('Enter first name')
         let lastNameField = await page.getByPlaceholder('Enter last name')
         let ageField = await page.getByPlaceholder('Enter age ( 1 - 150 )')
-        const addButton = await page.getByRole('button', {name: 'Add'})
 
         await firstNameField.fill(users.user1.firstName)
         await lastNameField.fill(users.user1.lastName)
         await ageField.fill(users.user1.age)
+        const addButton = await page.getByRole('button', {name: 'Add'})
         await addButton.click()
         await page.waitForLoadState('networkidle')
 
@@ -54,11 +54,11 @@ test.describe('End to End Test', async () => {
         firstNameField = await page.getByLabel('First Name')
         lastNameField = await page.getByLabel('Last Name')
         ageField = await page.getByLabel('Age')
-        const editButton = await page.getByRole('button', {name: 'Edit'})
 
         await firstNameField.fill(users.user2.firstName)
         await lastNameField.fill(users.user2.lastName)
         await ageField.fill(users.user2.age)
+        const editButton = await page.getByRole('button', {name: 'Edit'})
         await editButton.click()
         await page.waitForLoadState('networkidle')
 

@@ -22,13 +22,13 @@ import {deleteAllUsers} from "../utils/apiUtils";
             const firstNameField = await page.getByPlaceholder('Enter first name')
             const lastNameField = await page.getByPlaceholder('Enter last name')
             const ageField = await page.getByPlaceholder('Enter age ( 1 - 150 )')
-            const addButton = await page.getByRole('button', {name: 'Add'})
 
             for (const user of usersDB) {
                 await firstNameField.fill(user.firstName)
                 await lastNameField.fill(user.lastName)
                 await ageField.fill(user.age)
 
+                const addButton = await page.getByRole('button', {name: 'Add'})
                 await addButton.click()
                 user.id = await page.locator('tbody>tr').last()
                     .locator('td').nth(3)
