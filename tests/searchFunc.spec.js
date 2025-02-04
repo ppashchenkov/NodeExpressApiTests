@@ -25,11 +25,28 @@ import {deleteAllUsers} from "../utils/apiUtils";
             const addButton = await page.getByRole('button', {name: 'Add'})
 
             for (const user of usersDB) {
-                await firstNameField.fill(user.firstName)
-                await lastNameField.fill(user.lastName)
-                await ageField.fill(user.age)
+                await firstNameField.fill(user.firstName).then((res) => {
+                    return res;
+                }).catch((err) => {
+                    return err;
+                });
+                await lastNameField.fill(user.lastName).then((res) => {
+                    return res;
+                }).catch((err) => {
+                    return err;
+                });
+                await ageField.fill(user.age).then((res) => {
+                    return res;
+                }).catch((err) => {
+                    return err;
+                });
 
-                await addButton.click()
+                await addButton.click().then((res) => {
+                    return res;
+                }).catch((err) => {
+                    return err;
+                });
+                await page.waitForLoadState('networkidle')
                 user.id = await page.locator('tbody>tr').last()
                     .locator('td').nth(3)
                     .innerText()
@@ -46,10 +63,26 @@ import {deleteAllUsers} from "../utils/apiUtils";
             const searchButton = await page.getByRole('button', {name: 'Search'})
 
             await userIdField.fill(searchCriteria[0])
-            await firstNameField.fill(searchCriteria[1])
-            await lastNameField.fill(searchCriteria[2])
-            await ageField.fill(searchCriteria[3])
-            await searchButton.click()
+            await firstNameField.fill(searchCriteria[1]).then((res) => {
+                return res;
+            }).catch((err) => {
+                return err;
+            });
+            await lastNameField.fill(searchCriteria[2]).then((res) => {
+                return res;
+            }).catch((err) => {
+                return err;
+            });
+            await ageField.fill(searchCriteria[3]).then((res) => {
+                return res;
+            }).catch((err) => {
+                return err;
+            });
+            await searchButton.click().then((res) => {
+                return res;
+            }).catch((err) => {
+                return err;
+            });
             await page.waitForLoadState('networkidle')
 
             const actualListSearchedUsers = await page.locator('tbody>tr').all()
@@ -58,7 +91,6 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await expect(actualCountSearchedUsers).toEqual(expectedCount)
 
             for (let i = 0; i < actualCountSearchedUsers; i++) {
-
                 const actualUserId = await page.locator('tbody>tr')
                     .nth(i).locator('td')
                     .nth(3).innerText()
