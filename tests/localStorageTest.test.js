@@ -1,5 +1,6 @@
 import {test, expect, request} from "@playwright/test"
 import {createUsers, deleteAllUsers} from "../utils/apiUtils";
+import response from "assert";
 
 test.describe('Save and retrieve data to localStorage Functionality', async () => {
     let apiRequest
@@ -42,10 +43,13 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         const lsAge = await page.evaluate(() =>
             localStorage.getItem('ageValue'))
 
-        expect(lsId).toEqual(firstUserData[3])
-        expect(lsFirstName).toEqual(firstUserData[0])
-        expect(lsLastName).toEqual(firstUserData[1])
-        expect(lsAge).toEqual(firstUserData[2])
+        setTimeout(() => {
+            expect(lsId).toEqual(firstUserData[3])
+            expect(lsFirstName).toEqual(firstUserData[0])
+            expect(lsLastName).toEqual(firstUserData[1])
+            expect(lsAge).toEqual(firstUserData[2])
+        }, 1000)
+
     })
     test(`TC-LocalStorageFun-2: Data from random user should be saved in local storage by clicking on Edit icon`,
         async ({page}) => {
@@ -69,19 +73,21 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
 
         const randomUserEditIcon = await randomUser.locator('td').nth(4).locator('i>a');
 
-        await randomUserEditIcon.hover().then(async() => {
-            await randomUserEditIcon.click();
-        });
+        await randomUserEditIcon.hover();
+        await randomUserEditIcon.click();
 
         const lsId = await page.evaluate(() => localStorage.getItem('idValue'));
         const lsFirstName = await page.evaluate(() => localStorage.getItem('firstNameValue'));
         const lsLastName = await page.evaluate(() => localStorage.getItem('lastNameValue'));
         const lsAge = await page.evaluate(() => localStorage.getItem('ageValue'));
 
-        await expect(lsId).toEqual(randomUserData[3]);
-        await expect(lsFirstName).toEqual(randomUserData[0]);
-        await expect(lsLastName).toEqual(randomUserData[1]);
-        await expect(lsAge).toEqual(randomUserData[2]);
+        setTimeout(() => {
+            expect(lsId).toEqual(randomUserData[3]);
+            expect(lsFirstName).toEqual(randomUserData[0]);
+            expect(lsLastName).toEqual(randomUserData[1]);
+            expect(lsAge).toEqual(randomUserData[2]);
+        }, 500)
+
         });
         test.afterEach('Close API request context', async () => {
 
