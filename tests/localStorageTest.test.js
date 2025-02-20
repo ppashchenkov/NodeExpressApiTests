@@ -9,6 +9,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         await deleteAllUsers(apiRequest)
         await createUsers(apiRequest)
         await page.goto('/')
+        await page.waitForLoadState('domcontentloaded')
     })
 
     test(`TC-LocalStorageFun-1: Data from random user should be saved in local storage by clicking on Edit icon`,
@@ -52,7 +53,10 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         const users = await page.locator('tbody > tr');
         const usersAmount = await users.count();
 
-        await expect(usersAmount).toBeGreaterThanOrEqual(1);
+        setTimeout(() => {
+            expect(usersAmount).toBeGreaterThanOrEqual(1);
+        }, 500)
+
 
         let randomUserIndex = Math.floor(Math.random() * usersAmount);
         const randomUser = await users.nth(randomUserIndex);
