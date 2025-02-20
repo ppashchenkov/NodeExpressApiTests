@@ -7,7 +7,7 @@ import {test, expect}  from "@playwright/test"
     test.describe('Navigation tab are available', async () => {
 
         test.beforeEach('navigate to home page', async({ page }) => {
-            await page.goto('http://localhost:5000')
+            await page.goto('/')
             test.setTimeout(5000)
         })
 

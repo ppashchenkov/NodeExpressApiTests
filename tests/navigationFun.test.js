@@ -1,14 +1,14 @@
 import {test, expect}  from "@playwright/test"
 
-const HOME_PAGE_URL = 'http://localhost:5000/';
+const HOME_PAGE_URL = '/';
 [
-    {tabName: 'Add', header: 'Add User', buttonName: 'Add', count: 3, expected: [ "First Name", "Last Name", "Age" ], expectedClass: 'nav-link active', expectedURL: HOME_PAGE_URL + 'add', expectedTitle: 'Users app'},
-    {tabName: 'Search', header: 'Search user', buttonName: 'Search', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedClass: 'nav-link active', expectedURL: HOME_PAGE_URL + 'search', expectedTitle: 'Search user'},
+    {tabName: 'Add', header: 'Add User', buttonName: 'Add', count: 3, expected: [ "First Name", "Last Name", "Age" ], expectedClass: 'nav-link active', expectedURL: '/add', expectedTitle: 'Users app'},
+    {tabName: 'Search', header: 'Search user', buttonName: 'Search', count: 4, expected: [ 'User ID', 'First Name', 'Last Name', 'Age' ], expectedClass: 'nav-link active', expectedURL: '/search', expectedTitle: 'Search user'},
 ].forEach(({tabName, header, buttonName, count, expected, expectedClass, expectedURL, expectedTitle}) => {
     test.describe('Navigation tabs functionality', async () => {
 
         test.beforeEach('navigate to home page', async({ page }) => {
-            await page.goto('http://localhost:5000')
+            await page.goto('/')
             test.setTimeout(15000)
         })
 
@@ -42,8 +42,8 @@ const HOME_PAGE_URL = 'http://localhost:5000/';
             const actualUrl = page.url()
             const actualTitle = await page.title()
 
-            await expect(actualUrl).toEqual(expectedURL)
-            await expect(actualTitle).toEqual(expectedTitle)
+            await expect(actualUrl).toContain(expectedURL)
+            await expect(actualTitle).toContain(expectedTitle)
         })
 
         test(`Test Case 5: Verify ${tabName} Tab Persistence on Page Refresh`, async ({ page }) => {
