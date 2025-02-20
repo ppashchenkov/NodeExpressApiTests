@@ -1,6 +1,5 @@
 import {test, expect, request}  from "@playwright/test"
 import  { users } from "../testData/usersTestData"
-import { HOME_PAGE_URL } from "../testData/baseTestData"
 import {deleteAllUsers} from "../utils/apiUtils";
 
 test.describe('End to End Test', async () => {
@@ -9,7 +8,7 @@ test.describe('End to End Test', async () => {
     test.beforeEach('Land on Home Page', async ({page}) => {
         apiRequest = await request.newContext()
         await deleteAllUsers(apiRequest)
-        await page.goto(HOME_PAGE_URL)
+        await page.goto('/')
     })
 
     test(`end2EndTest`, async ({page}) => {
