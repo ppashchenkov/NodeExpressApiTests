@@ -1,6 +1,5 @@
 import {test, expect, request}  from "@playwright/test"
 import  { users } from "../testData/usersTestData"
-import { HOME_PAGE_URL } from "../testData/baseTestData"
 import {deleteAllUsers} from "../utils/apiUtils";
 
 [
@@ -19,7 +18,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
         test.beforeEach('Land on Home Page, Create tested users', async ({page}) => {
             apiRequest = await request.newContext()
             await deleteAllUsers(apiRequest)
-            await page.goto(HOME_PAGE_URL)
+            await page.goto('/')
             const firstNameField = await page.getByPlaceholder('Enter first name')
             const lastNameField = await page.getByPlaceholder('Enter last name')
             const ageField = await page.getByPlaceholder('Enter age ( 1 - 150 )')
@@ -35,7 +34,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
                     .locator('td').nth(3)
                     .innerText()
             }
-            await page.goto(HOME_PAGE_URL);
+            await page.goto('/');
 
             const usersLocator = page.locator('tbody > tr');
             const usersAmount = await usersLocator.count();
@@ -44,12 +43,13 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const randomUserIndex = Math.floor(Math.random() * usersAmount);
             randomUser = await usersLocator.nth(randomUserIndex);
+            await page.waitForLoadState('domcontentloaded')
         })
 
         test(`TC-editUserFun-${tcName}`, async ({page}) => {
             const editIcon = await randomUser.locator('td>i>a.bi-pen')
             await editIcon.click()
-            await page.waitForLoadState('networkidle')
+            // await page.waitForLoadState('networkidle')
 
             let choicesUser = []
             let updatedUser = []
@@ -70,13 +70,17 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await lastNameField.fill(editCriteria[1])
             await ageField.fill(editCriteria[2])
             const editButton = await page.getByRole('button', {name: 'Edit'})
+
+            await page.pause()
+
             await editButton.click()
-            await page.waitForLoadState('networkidle')
+            await page.waitForLoadState('domcontentloaded')
+
+            await page.pause()
 
             updatedUser.push(await randomUser.locator('td').nth(3).innerText())
 
             await expect(updatedUser[0]).toEqual(choicesUser[0])
-
             for(let i = 0; i <=2; i++) {
                 updatedUser.push(await randomUser.locator('td').nth(i).innerText())
                 if(editCriteria[i]) {
@@ -95,7 +99,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const editIcon = await randomUser.locator('td>i>a.bi-trash')
             await editIcon.click()
-            await page.waitForLoadState('networkidle')
+            // await page.waitForLoadState('networkidle')
             const inputs = await page.locator('#form-delete input').all()
 
             for(let i = 0; i <= 3; i++) {
@@ -106,8 +110,9 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const deleteButton = await page.getByRole('button', {name: 'Delete'})
             await deleteButton.click()
-            await page.waitForLoadState('networkidle')
+            // await page.waitForLoadState('networkidle')
             const actualListUsers = await page.locator('tbody>tr').all()
+            await page.waitForLoadState('networkidle')
             const actualCountUsers = actualListUsers.length
 
             await expect(actualCountUsers).toEqual(countUsers - 1)

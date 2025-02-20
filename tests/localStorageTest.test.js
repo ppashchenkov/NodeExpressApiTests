@@ -1,5 +1,4 @@
 import {test, expect, request} from "@playwright/test"
-import {HOME_PAGE_URL} from "../testData/baseTestData"
 import {createUsers, deleteAllUsers} from "../utils/apiUtils";
 
 test.describe('Save and retrieve data to localStorage Functionality', async () => {
@@ -9,7 +8,7 @@ test.describe('Save and retrieve data to localStorage Functionality', async () =
         apiRequest = await request.newContext()
         await deleteAllUsers(apiRequest)
         await createUsers(apiRequest)
-        await page.goto(HOME_PAGE_URL)
+        await page.goto('/')
     })
 
     test(`TC-LocalStorageFun-1: Data from random user should be saved in local storage by clicking on Edit icon`,
