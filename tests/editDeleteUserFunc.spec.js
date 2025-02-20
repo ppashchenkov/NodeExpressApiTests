@@ -71,12 +71,8 @@ import {deleteAllUsers} from "../utils/apiUtils";
             await ageField.fill(editCriteria[2])
             const editButton = await page.getByRole('button', {name: 'Edit'})
 
-            await page.pause()
-
             await editButton.click()
             await page.waitForLoadState('domcontentloaded')
-
-            await page.pause()
 
             updatedUser.push(await randomUser.locator('td').nth(3).innerText())
 

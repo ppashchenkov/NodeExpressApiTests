@@ -4,7 +4,7 @@ import * as os from "node:os";
 import dotenv from "dotenv";
 import path from "path";
 
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve( '.env') });
 
 export default defineConfig({
   testDir: './tests',
@@ -48,13 +48,13 @@ export default defineConfig({
       },
     },
 
-    // {
-    //   name: 'firefox',
-    //   testMatch: /.*\.test\.js/,
-    //   use: { ...devices['Desktop Firefox'],
-    //     headless: !!process.env.CI,
-    //   },
-    // },
+    {
+      name: 'firefox',
+      testMatch: /.*\.test\.js/,
+      use: { ...devices['Desktop Firefox'],
+        // headless: !!process.env.CI,
+      },
+    },
 
     // {
     //   name: 'webkit',
