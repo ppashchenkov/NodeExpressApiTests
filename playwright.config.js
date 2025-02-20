@@ -40,21 +40,21 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-//     {
-//       name: 'chromium',
-//       testMatch: /.*\.test\.js/,
-//       use: { ...devices['Desktop Chrome'],
-// //        headless: !!process.env.CI,
-//       },
-//     },
-
     {
-      name: 'firefox',
+      name: 'chromium',
       testMatch: /.*\.test\.js/,
-      use: { ...devices['Desktop Firefox'],
-        headless: !!process.env.CI,
+      use: { ...devices['Desktop Chrome'],
+//        headless: !!process.env.CI,
       },
     },
+
+    // {
+    //   name: 'firefox',
+    //   testMatch: /.*\.test\.js/,
+    //   use: { ...devices['Desktop Firefox'],
+    //     headless: !!process.env.CI,
+    //   },
+    // },
 
     // {
     //   name: 'webkit',
