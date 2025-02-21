@@ -72,7 +72,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
             const editButton = await page.getByRole('button', {name: 'Edit'})
 
             await editButton.click()
-            await page.waitForLoadState('domcontentloaded')
+            await page.waitForLoadState('networkidle')
 
             updatedUser.push(await randomUser.locator('td').nth(3).innerText())
 
@@ -95,7 +95,7 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const editIcon = await randomUser.locator('td>i>a.bi-trash')
             await editIcon.click()
-            // await page.waitForLoadState('networkidle')
+            await page.waitForLoadState('domcontentloaded')
             const inputs = await page.locator('#form-delete input').all()
 
             for(let i = 0; i <= 3; i++) {
@@ -106,9 +106,8 @@ import {deleteAllUsers} from "../utils/apiUtils";
 
             const deleteButton = await page.getByRole('button', {name: 'Delete'})
             await deleteButton.click()
-            // await page.waitForLoadState('networkidle')
-            const actualListUsers = await page.locator('tbody>tr').all()
             await page.waitForLoadState('networkidle')
+            const actualListUsers = await page.locator('tbody>tr').all()
             const actualCountUsers = actualListUsers.length
 
             await expect(actualCountUsers).toEqual(countUsers - 1)
