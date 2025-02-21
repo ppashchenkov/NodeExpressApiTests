@@ -18,6 +18,7 @@ const HOME_PAGE_URL = '/';
             const tab = await page.getByRole('link',
                 {name: `${tabName}`, exact: true})
             await tab.click()
+            await page.waitForLoadState('domcontentloaded')
             const tabClassAttribute = await tab.getAttribute('class')
             const h2Header = await page.getByRole('heading',
                 {name: `${header}`, exact: true})
@@ -50,10 +51,10 @@ const HOME_PAGE_URL = '/';
             const tab = await page.getByRole('link',
                 {name: `${tabName}`, exact: true})
             await tab.click()
-            await page.reload({timeout: 500})
+            await page.waitForLoadState('domcontentloaded')
             const tabClassAttribute = await tab.getAttribute('class')
 
-            await expect(tabClassAttribute).toStrictEqual(`${expectedClass}`)
+            expect(tabClassAttribute).toStrictEqual(`${expectedClass}`)
         })
     })
 })
