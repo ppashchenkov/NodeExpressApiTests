@@ -74,7 +74,6 @@ test.describe('End to End Test', async () => {
 
         const deleteIcon = await usersLocator.locator('td>i>a.bi-trash')
         await deleteIcon.click()
-        await page.waitForLoadState('networkidle')
         inputs = await page.locator('#form-delete input').all()
 
         await expect(h2Header.first()).toHaveText("Delete user")
