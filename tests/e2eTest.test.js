@@ -67,10 +67,13 @@ test.describe('End to End Test', async () => {
         const actualEditedUserAge = await editedUserLocators[2].innerText()
         const actualEditedUserId = await editedUserLocators[3].innerText()
 
-        await expect(actualEditedUserFirstname).toEqual(users.user2.firstName)
-        await expect(actualEditedUserLastname).toEqual(users.user2.lastName)
-        await expect(actualEditedUserAge).toEqual(users.user2.age)
-        await expect(actualEditedUserId.length).toEqual(actualUserId.length)
+        await Promise.all([
+            await expect(actualEditedUserFirstname).toEqual(users.user2.firstName),
+            await expect(actualEditedUserLastname).toEqual(users.user2.lastName),
+            await expect(actualEditedUserAge).toEqual(users.user2.age),
+            await expect(actualEditedUserId.length).toEqual(actualUserId.length)
+        ])
+
 
         const deleteIcon = await usersLocator.locator('td>i>a.bi-trash')
         await deleteIcon.click()
