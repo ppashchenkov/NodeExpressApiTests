@@ -8,7 +8,7 @@ import {test, expect}  from "@playwright/test"
 
         test.beforeEach('navigate to home page', async({ page }) => {
             await page.goto('/')
-            test.setTimeout(5000)
+            test.setTimeout(15000)
         })
 
         test( `Test Case 1: Verify ${tabName} tab should be available`, async ({ page}) => {

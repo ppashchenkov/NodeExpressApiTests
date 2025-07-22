@@ -27,7 +27,7 @@ test.describe('End to End Test', async () => {
         await ageField.fill(users.user1.age)
         const addButton = await page.getByRole('button', {name: 'Add'})
         await addButton.click()
-        await page.waitForLoadState('networkidle')
+        await page.waitForLoadState('domcontentloaded')
 
         const addedUserLocators = await page.locator('tbody>tr>td').all()
         const actualUserFirstname = await addedUserLocators[0].innerText()
@@ -59,7 +59,7 @@ test.describe('End to End Test', async () => {
         await ageField.fill(users.user2.age)
         const editButton = await page.getByRole('button', {name: 'Edit'})
         await editButton.click()
-        await page.waitForLoadState('networkidle')
+        await page.waitForTimeout(500)
 
         const editedUserLocators = await page.locator('tbody>tr>td').all()
         const actualEditedUserFirstname = await editedUserLocators[0].innerText()

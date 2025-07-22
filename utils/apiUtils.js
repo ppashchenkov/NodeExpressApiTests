@@ -2,6 +2,7 @@ import {request} from "@playwright/test";
 import * as TEST_DATA from "../testData/testData";
 import {users} from "../testData/usersTestData";
 import {BASE_URL, USERS_END_POINT} from "../testData/testData";
+import {sleep} from "./uiUtils";
 
 export async function createNewContext() {
     return await request.newContext()
@@ -21,6 +22,7 @@ export async function deleteUser(request, userId) {
 
 export async function deleteAllUsers(request) {
     await request.delete(TEST_DATA.BASE_URL + TEST_DATA.USERS_END_POINT)
+    await sleep(500)
 }
 
 export function getResponseStatus(response) {
