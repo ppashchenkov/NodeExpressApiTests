@@ -23,15 +23,16 @@ test.describe('Icons created when users created', async() => {
         await lastNameField.fill(users.user1.lastName)
         await ageField.fill(users.user1.age)
         await addButton.click()
+        await page.waitForLoadState('domcontentloaded')
 
         const userRow = await page.locator('table>tbody>tr')
         const userCells = await userRow.getByRole('cell')
         const editIconInUserRow = await userRow
             .getByRole('cell').nth(4)
-            .locator('i>a>svg.bi-pen')
+            .locator('i>a>div.bi-pen')
         const deleteIconInUserRow = await userRow
             .getByRole('cell').nth(5)
-            .locator('i>a>svg.bi-trash')
+            .locator('i>a>div.bi-trash')
 
         await expect(userRow).toHaveCount(1)
         await expect(userCells).toHaveCount(6)

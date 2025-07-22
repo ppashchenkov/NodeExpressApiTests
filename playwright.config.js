@@ -1,6 +1,4 @@
-//const { defineConfig, devices } = require('@playwright/test');
 import { defineConfig, devices } from '@playwright/test';
-import * as os from "node:os";
 import dotenv from "dotenv";
 import path from "path";
 
